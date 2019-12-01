@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Rant Bookshop | Login</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="photo/logo-rant2.png">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="AdminLTE-3.0.0-rc.4/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="AdminLTE-3.0.0-rc.4/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="AdminLTE-3.0.0-rc.4/dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway|Ubuntu&display=swap" rel="stylesheet">
+  <style>
+    .logo{
+      width: 90px;
+      height: auto;
+    }
+    *{
+      font-family: 'Ubuntu', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="#"><img src="photo/logo-rant2.png" class="logo" alt="Rant Logo"></a>
+      <br><a href="#"><b>Rant</b> Bookshop</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------Login Form--------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <form action="validate.php" method="post">
+        <!-- <form method="POST" action="<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> -->
+
+
+          <!-- Username -->
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Email" name="email" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+          <!-- /Username -->
+
+
+
+          <!-- Password -->
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="Password" name="password" required>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+          <!-- /Password -->
+
+
+          <div class="row">
+
+
+            <!-- Requerdame -->
+            <div class="col-8">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember">
+                <label for="remember">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            <!-- /Requerdame -->
+
+
+            <!-- Login Button -->
+            <div class="col-4">
+              <input type="submit" class="btn btn-warning btn-block" name="submitted" value="Log In">
+            </div>
+            <!-- /Login Button -->
+
+
+          </div>
+        </form>
+        <!-- /.form -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- --------------------./Login Form--------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+        <!-- ----------------------------------------------------- -->
+      </div>
+      <!-- /.login-card-body -->
+    </div>
+  </div>
+  <!-- /.login-box -->
+
+
+
+  <!-- jQuery -->
+  <script src="AdminLTE-3.0.0-rc.4/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="AdminLTE-3.0.0-rc.4/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="AdminLTE-3.0.0-rc.4/dist/js/adminlte.min.js"></script>
+</body>
+
+</html>
