@@ -82,13 +82,13 @@ include("config.php");
           <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="index3.html" class="nav-link">Home</a>
+          <a href="home.php" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">Featured</a>
+          <a href="home.php" class="nav-link">Featured</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">All Books</a>
+          <a href="home.php" class="nav-link">All Books</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="#" class="nav-link">About Us</a>
@@ -186,7 +186,7 @@ include("config.php");
                   $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " .mysqli_error($conn));
                   while($fetch_auth = mysqli_fetch_array($query_author)){
                     echo '<li class="nav-item">';
-                    echo '<a href="author.php?cat='. $fetch_auth["author"] .'" class="nav-link">';
+                    echo '<a href="author.php?author='. $fetch_auth["author"] .'" class="nav-link">';
                     //echo '<i class="far fa-circle nav-icon"></i>';
                     echo '<p>'. $fetch_auth["author"] .'</p>';
                     echo '</a></li>';

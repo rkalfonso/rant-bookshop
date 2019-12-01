@@ -2,6 +2,7 @@
 include("config.php");
 include("session.php");
 //$mysqli->real_escape_string($username);
+$author = $_GET['author'];
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +143,7 @@ include("session.php");
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="index.php" class="nav-link active">
+              <a href="index.php" class="nav-link">
                 <i class="nav-icon fas fa-certificate"></i>
                 <p>
                   Featured
@@ -174,7 +175,7 @@ include("session.php");
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+              <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-user-edit"></i>
                 <p>
                   Author
@@ -243,12 +244,13 @@ include("session.php");
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Featured Books</h1>
+              <h1 class="m-0 text-dark">Author > <?php echo $author ?></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Featured</li>
+                <li class="breadcrumb-item active">Author</li>
+                <li class="breadcrumb-item active"><?php echo $author ?></li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -264,7 +266,7 @@ include("session.php");
           <div class="card-body pb-0">
             <div class="row d-flex align-items-stretch">
               <?php
-              $sql_select = "SELECT * FROM book WHERE featured = '1' ORDER BY book_id asc";
+              $sql_select = "SELECT * FROM book WHERE author = '$author' ORDER BY name asc";
               $query = $conn->query($sql_select) or die("Could not perform select in book table:" . mysqli_error($conn));
 
               while ($fetch = mysqli_fetch_array($query)) {
@@ -281,8 +283,7 @@ include("session.php");
                   echo '<div class="card-body pt-0">';
                   echo '<div class="row">';
                   echo '<div class="col-12 text-center">';
-                  echo '<center><a href="details.php?id='. $bid .'"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';
-                  echo '</div>';
+                  echo '<center><a href="details.php?id='. $bid .'"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';                  echo '</div>';
                   echo '<div class="col-12 ">';
                   echo '<h6 class="text-center"><br><b>' . $fetch["name"] . '</b> </h6>';
                   echo '<p class="text-muted text-sm">' . $fetch["author"] . '<br>' . $fetch["publisher"] . '<br> Price: <b>P ' . $fetch["price"] . '</b></p>';

@@ -2,6 +2,10 @@
 include("config.php");
 include("session.php");
 //$mysqli->real_escape_string($username);
+$id = $_GET['id'];
+$sql_sel_id ="SELECT * FROM book where book_id = '$id'";
+$query_id = mysqli_query($conn, $sql_sel_id) or die("Could not select on table 'book': " .mysqli_error($conn));
+$fetch_id = mysqli_fetch_array($query_id);
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +26,8 @@ include("session.php");
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="AdminLTE-3.0.0-rc.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet"
+    href="AdminLTE-3.0.0-rc.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- <link rel="stylesheet" href="css/tempusdominus-bootstrap-4.min.css"> -->
   <!-- <link rel="stylesheet" href="css/select2.min.css"> -->
   <!-- <link rel="stylesheet" href="css/select2-bootstrap4.min.css"> -->
@@ -52,19 +57,20 @@ include("session.php");
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway|Ubuntu&display=swap" rel="stylesheet">
 
   <style>
-    .logo-rant {
-      font-family: 'Ubuntu', sans-serif;
-    }
+  .logo-rant {
+    font-family: 'Ubuntu', sans-serif;
+  }
 
-    * {
-      font-family: 'Ubuntu', sans-serif;
-      /* font-family: 'Montserrat', sans-serif;
+  * {
+    font-family: 'Ubuntu', sans-serif;
+    /* font-family: 'Montserrat', sans-serif;
       font-family: 'Raleway', sans-serif; */
-    }
-    .cover{
-      width: auto;
-      height: 250px;
-    }
+  }
+
+  .cover {
+    width: auto;
+    height: 500px;
+  }
   </style>
 </head>
 <!-- FD7E14 -->
@@ -120,7 +126,8 @@ include("session.php");
     <aside class="main-sidebar sidebar-light-yellow elevation-4">
       <!-- Brand Logo -->
       <a href="index3.html" class="brand-link">
-        <img src="photo/logo-rant2.png" alt="Rant Bookshop Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="photo/logo-rant2.png" alt="Rant Bookshop Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
         <span class="brand-text font-weight-light logo-rant"><b>Rant</b> Bookshop</span>
       </a>
 
@@ -138,7 +145,8 @@ include("session.php");
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-child-indent nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+          <ul class="nav nav-child-indent nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+            data-accordion="true">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
@@ -170,7 +178,7 @@ include("session.php");
                     echo '<p>'. $fetch_cat["category"] .'</p>';
                     echo '</a></li>';
                   }
-                ?>   
+                ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -182,7 +190,7 @@ include("session.php");
                 </p>
               </a>
               <ul class="nav nav-treeview">
-              <?php
+                <?php
                   $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
                   $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " .mysqli_error($conn));
                   while($fetch_auth = mysqli_fetch_array($query_author)){
@@ -192,7 +200,7 @@ include("session.php");
                     echo '<p>'. $fetch_auth["author"] .'</p>';
                     echo '</a></li>';
                   }
-                ?>   
+                ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -243,12 +251,12 @@ include("session.php");
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Featured Books</h1>
+              <h1 class="m-0 text-dark">Details</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Featured</li>
+                <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+                <li class="breadcrumb-item active">Details</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -261,45 +269,68 @@ include("session.php");
 
         <!-- Default box -->
         <div class="card card-solid">
-          <div class="card-body pb-0">
-            <div class="row d-flex align-items-stretch">
-              <?php
-              $sql_select = "SELECT * FROM book WHERE featured = '1' ORDER BY book_id asc";
-              $query = $conn->query($sql_select) or die("Could not perform select in book table:" . mysqli_error($conn));
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <h3 class="d-inline-block d-sm-none"><?php echo $fetch_id['name'] ?></h3>
+                <div class="col-12">
+                  <center><img src="img/<?php echo $fetch_id['img'] ?>" class="product-image cover" alt="Product Image"></center>
+                </div>
+                <!-- <div class="col-12 product-image-thumbs">
+                  <div class="product-image-thumb active"><img src="../../dist/img/prod-1.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-2.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-3.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-4.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-5.jpg" alt="Product Image"></div>
+                </div> -->
+              </div>
+              <div class="col-12 col-sm-6">
+                <h3 class="my-3"><?php echo $fetch_id['name'] ?></h3>
+                <p><?php echo $fetch_id['description'] ?></p>
 
-              while ($fetch = mysqli_fetch_array($query)) {
-                $bid = $fetch['book_id'];
+                <hr>
+                <h4><b>Details</b></h4>
+                <h6><b>Author: </b><?php echo $fetch_id['author'] ?></h6>
+                <h6><b>Publisher: </b><?php echo $fetch_id['publisher'] ?></h6>
+                <h6><b>Category: </b><?php echo $fetch_id['category'] ?></h6>
 
-                $sql_select_stock = "SELECT * FROM stock where book_id = '$bid'";
-                $query2 = $conn->query($sql_select_stock) or die("Could not perform select in stock table:" . mysqli_error($conn));
-                $row = mysqli_fetch_array($query2);
-                $qty = $row['qty'];
-                if ($qty <= 5) { } else {
-                  echo '<div class="col-12 col-sm-6 col-md-3 d-flex align-items-stretch">';
-                  echo '<div class="card bg-light">';
-                  echo '<div class="card-header text-muted border-bottom-0">' . $fetch['category'] . '</div>';
-                  echo '<div class="card-body pt-0">';
-                  echo '<div class="row">';
-                  echo '<div class="col-12 text-center">';
-                  echo '<center><a href="details.php?id='. $bid .'"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';
-                  echo '</div>';
-                  echo '<div class="col-12 ">';
-                  echo '<h6 class="text-center"><br><b>' . $fetch["name"] . '</b> </h6>';
-                  echo '<p class="text-muted text-sm">' . $fetch["author"] . '<br>' . $fetch["publisher"] . '<br> Price: <b>P ' . $fetch["price"] . '</b></p>';
-                  echo '</div>';
-                  echo '<div class="col-12">';
-                  echo '<a href="#" class="btn btn-sm btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
-                }
-              }
-              ?>
+                <div class="bg-gray py-2 px-3 mt-4">
+                  <h2 class="mb-0">
+                    ₱<?php echo $fetch_id['price'] ?>
+                  </h2>
+                </div>
+
+                <div class="mt-4">
+                  <div class="btn btn-primary btn-lg">
+                    <i class="fas fa-cart-plus fa-lg mr-2"></i>
+                    Add to Cart
+                  </div>
+                </div>
+
+                <div class="mt-4 product-share">
+                  <a href="#" class="text-gray">
+                    <i class="fab fa-facebook-square fa-2x"></i>
+                  </a>
+                  <a href="#" class="text-gray">
+                    <i class="fab fa-twitter-square fa-2x"></i>
+                  </a>
+                  <a href="#" class="text-gray">
+                    <i class="fas fa-envelope-square fa-2x"></i>
+                  </a>
+                  <a href="#" class="text-gray">
+                    <i class="fas fa-rss-square fa-2x"></i>
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
         </div>
         <!-- /.card -->
+
       </section>
+
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -323,7 +354,7 @@ include("session.php");
   <!-- <script src="js/jquery-ui.min.js"></script> -->
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
-    $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button)
   </script>
   <!-- Bootstrap 4 -->
   <script src="AdminLTE-3.0.0-rc.4/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -371,90 +402,90 @@ include("session.php");
   <script src="AdminLTE-3.0.0-rc.4/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
   <!-- <script src="js/dataTables.bootstrap4.js"></script> -->
   <script>
-    $(function() {
-      $("#example1").DataTable();
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-      });
+  $(function() {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
     });
+  });
   </script>
   <script>
-    $(function() {
-      //Initialize Select2 Elements
-      $('.select2bs4').select2({
-        theme: 'bootstrap4'
-      })
-
-      //Initialize Select2 Elements
-      $('.select2').select2()
-
-      //Datemask dd/mm/yyyy
-      $('#datemask').inputmask('dd/mm/yyyy', {
-        'placeholder': 'dd/mm/yyyy'
-      })
-      //Datemask2 mm/dd/yyyy
-      $('#datemask2').inputmask('mm/dd/yyyy', {
-        'placeholder': 'mm/dd/yyyy'
-      })
-      //Money Euro
-      $('[data-mask]').inputmask()
-
-      //Date range picker
-      $('#reservation').daterangepicker()
-      //Date range picker with time picker
-      $('#reservationtime').daterangepicker({
-        timePicker: true,
-        timePickerIncrement: 30,
-        locale: {
-          format: 'MM/DD/YYYY hh:mm A'
-        }
-      })
-      //Date range as a button
-      $('#daterange-btn').daterangepicker({
-          ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
-              'month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function(start, end) {
-          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-        }
-      )
-
-      //Timepicker
-      $('#timepicker').datetimepicker({
-        format: 'LT'
-      })
-
-      //Bootstrap Duallistbox
-      $('.duallistbox').bootstrapDualListbox()
-
-      //Colorpicker
-      $('.my-colorpicker1').colorpicker()
-      //color picker with addon
-      $('.my-colorpicker2').colorpicker()
-
-      $('.my-colorpicker2').on('colorpickerChange', function(event) {
-        $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-      });
-
-      $("input[data-bootstrap-switch]").each(function() {
-        $(this).bootstrapSwitch('state', $(this).prop('checked'));
-      });
-
+  $(function() {
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
     })
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', {
+      'placeholder': 'dd/mm/yyyy'
+    })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', {
+      'placeholder': 'mm/dd/yyyy'
+    })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker({
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
+            'month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate: moment()
+      },
+      function(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    });
+
+    $("input[data-bootstrap-switch]").each(function() {
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+  })
   </script>
 </body>
 
