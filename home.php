@@ -1,6 +1,6 @@
 <?php
-//include("session.php");
 include("config.php");
+include("session.php");
 //$mysqli->real_escape_string($username);
 ?>
 
@@ -106,10 +106,11 @@ include("config.php");
           </a>
         </li>
         <li class="nav-item">
-          <a href="login.html" class="nav-link">Login
-          </a>
+          <a href="#" class="nav-link">Hi <?php echo $_SESSION['name'] ?>!</a>
         </li>
-
+        <li class="nav-item">
+          <a href="logout.php" class="nav-link">Logout</a>
+        </li>
         <!-- Notifications Dropdown Menu -->
       </ul>
     </nav>
@@ -128,10 +129,10 @@ include("config.php");
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="photo/user.png" class="img-circle elevation-2" alt="User Image">
+            <img src="photo/<?php echo $_SESSION['img'] ?>" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="login.html" class="d-block">Login</a>
+            <a href="#" class="d-block"><?php echo $_SESSION['name'] ?></a>
           </div>
         </div>
 
@@ -287,7 +288,7 @@ include("config.php");
                   echo '<p class="text-muted text-sm">' . $fetch["author"] . '<br>' . $fetch["publisher"] . '<br> Price: <b>P ' . $fetch["price"] . '</b></p>';
                   echo '</div>';
                   echo '<div class="col-12">';
-                  echo '<a href="login.html" class="btn btn-sm btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
+                  echo '<a href="#" class="btn btn-sm btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
                   echo '</div>';
                   echo '</div>';
                   echo '</div>';
