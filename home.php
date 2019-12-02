@@ -1,6 +1,8 @@
 <?php
 include("config.php");
 include("session.php");
+
+
 //$mysqli->real_escape_string($username);
 ?>
 
@@ -61,7 +63,8 @@ include("session.php");
       /* font-family: 'Montserrat', sans-serif;
       font-family: 'Raleway', sans-serif; */
     }
-    .cover{
+
+    .cover {
       width: auto;
       height: 250px;
     }
@@ -95,7 +98,6 @@ include("session.php");
         </li>
       </ul>
 
-
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
@@ -106,15 +108,26 @@ include("session.php");
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">Hi <?php echo $_SESSION['name'] ?>!</a>
+          <a href="#profile" data-toggle="modal" class="nav-link">Hi <?php echo $_SESSION['name'] ?>!</a>
         </li>
         <li class="nav-item">
           <a href="logout.php" class="nav-link">Logout</a>
         </li>
         <!-- Notifications Dropdown Menu -->
       </ul>
+
     </nav>
     <!-- /.navbar -->
+    <!-- modal -->
+    <!-- modal -->
+    <!-- modal -->
+    <!-- modal -->
+    <!-- modal -->
+    <!-- modal -->
+    <!-- modal -->
+    <!-- modal -->
+    <!-- modal -->
+
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-light-yellow elevation-4">
@@ -142,7 +155,7 @@ include("session.php");
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="index.php" class="nav-link active">
+              <a href="home.php" class="nav-link active">
                 <i class="nav-icon fas fa-certificate"></i>
                 <p>
                   Featured
@@ -161,16 +174,16 @@ include("session.php");
               </a>
               <ul class="nav nav-treeview">
                 <?php
-                  $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
-                  $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " .mysqli_error($conn));
-                  while($fetch_cat = mysqli_fetch_array($query_category)){
-                    echo '<li class="nav-item">';
-                    echo '<a href="category.php?cat='. $fetch_cat["category"] .'" class="nav-link">';
-                    //echo '<i class="far fa-circle nav-icon"></i>';
-                    echo '<p>'. $fetch_cat["category"] .'</p>';
-                    echo '</a></li>';
-                  }
-                ?>   
+                $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
+                $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " . mysqli_error($conn));
+                while ($fetch_cat = mysqli_fetch_array($query_category)) {
+                  echo '<li class="nav-item">';
+                  echo '<a href="category.php?cat=' . $fetch_cat["category"] . '" class="nav-link">';
+                  //echo '<i class="far fa-circle nav-icon"></i>';
+                  echo '<p>' . $fetch_cat["category"] . '</p>';
+                  echo '</a></li>';
+                }
+                ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -182,17 +195,17 @@ include("session.php");
                 </p>
               </a>
               <ul class="nav nav-treeview">
-              <?php
-                  $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
-                  $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " .mysqli_error($conn));
-                  while($fetch_auth = mysqli_fetch_array($query_author)){
-                    echo '<li class="nav-item">';
-                    echo '<a href="author.php?author='. $fetch_auth["author"] .'" class="nav-link">';
-                    //echo '<i class="far fa-circle nav-icon"></i>';
-                    echo '<p>'. $fetch_auth["author"] .'</p>';
-                    echo '</a></li>';
-                  }
-                ?>   
+                <?php
+                $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
+                $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " . mysqli_error($conn));
+                while ($fetch_auth = mysqli_fetch_array($query_author)) {
+                  echo '<li class="nav-item">';
+                  echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
+                  //echo '<i class="far fa-circle nav-icon"></i>';
+                  echo '<p>' . $fetch_auth["author"] . '</p>';
+                  echo '</a></li>';
+                }
+                ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -264,7 +277,7 @@ include("session.php");
           <div class="card-body pb-0">
             <div class="row d-flex align-items-stretch">
               <?php
-              $sql_select = "SELECT * FROM book WHERE featured = '1' ORDER BY book_id asc";
+              $sql_select = "SELECT * FROM book WHERE featured = '1' ORDER BY name asc";
               $query = $conn->query($sql_select) or die("Could not perform select in book table:" . mysqli_error($conn));
 
               while ($fetch = mysqli_fetch_array($query)) {
@@ -281,7 +294,7 @@ include("session.php");
                   echo '<div class="card-body pt-0">';
                   echo '<div class="row">';
                   echo '<div class="col-12 text-center">';
-                  echo '<center><a href="details.php?id='. $bid .'"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';
+                  echo '<center><a href="details.php?id=' . $bid . '"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';
                   echo '</div>';
                   echo '<div class="col-12 ">';
                   echo '<h6 class="text-center"><br><b>' . $fetch["name"] . '</b> </h6>';
@@ -297,6 +310,8 @@ include("session.php");
                 }
               }
               ?>
+            </div>
+          </div>
         </div>
         <!-- /.card -->
       </section>
@@ -456,6 +471,7 @@ include("session.php");
 
     })
   </script>
+  <?php include("modal-profile.php"); ?>
 </body>
 
 </html>
