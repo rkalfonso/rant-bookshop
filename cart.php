@@ -63,7 +63,8 @@ switch ($action) {
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="AdminLTE-3.0.0-rc.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet"
+    href="AdminLTE-3.0.0-rc.4/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   <!-- <link rel="stylesheet" href="css/tempusdominus-bootstrap-4.min.css"> -->
   <!-- <link rel="stylesheet" href="css/select2.min.css"> -->
   <!-- <link rel="stylesheet" href="css/select2-bootstrap4.min.css"> -->
@@ -93,20 +94,20 @@ switch ($action) {
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway|Ubuntu&display=swap" rel="stylesheet">
 
   <style>
-    .logo-rant {
-      font-family: 'Ubuntu', sans-serif;
-    }
+  .logo-rant {
+    font-family: 'Ubuntu', sans-serif;
+  }
 
-    * {
-      font-family: 'Ubuntu', sans-serif;
-      /* font-family: 'Montserrat', sans-serif;
+  * {
+    font-family: 'Ubuntu', sans-serif;
+    /* font-family: 'Montserrat', sans-serif;
       font-family: 'Raleway', sans-serif; */
-    }
+  }
 
-    .cover {
-      width: auto;
-      height: 500px;
-    }
+  .cover {
+    width: auto;
+    height: 500px;
+  }
   </style>
 </head>
 <!-- FD7E14 -->
@@ -170,7 +171,8 @@ switch ($action) {
     <aside class="main-sidebar sidebar-light-yellow elevation-4">
       <!-- Brand Logo -->
       <a href="index3.html" class="brand-link">
-        <img src="photo/logo-rant2.png" alt="Rant Bookshop Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="photo/logo-rant2.png" alt="Rant Bookshop Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
         <span class="brand-text font-weight-light logo-rant"><b>Rant</b> Bookshop</span>
       </a>
 
@@ -188,7 +190,8 @@ switch ($action) {
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-child-indent nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+          <ul class="nav nav-child-indent nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+            data-accordion="true">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
@@ -295,7 +298,7 @@ switch ($action) {
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Details</h1>
+              <h1 class="m-0 text-dark"><?php echo $_SESSION['fname']; ?>'s Cart</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -315,28 +318,27 @@ switch ($action) {
         <div id="container">
           <form method="post" class="well" style="background-color:#fff;">
             <table class="table">
-              <label style="font-size:25px;">My Cart</label>
               <tr>
                 <th>
-                  <h3>Image</h3>
+                  <h5>Image</h5>
                   </td>
                 <th>
-                  <h3>Product Name</h3>
+                  <h5>Product Name</h5>
                 </th>
                 <th>
-                  <h3>Quantity</h3>
+                  <h5>Quantity</h5>
                 </th>
                 <th>
-                  <h3>Price</h3>
+                  <h5>Price</h5>
                 </th>
                 <th>
-                  <h3>Add</h3>
+                  <h5>Add</h5>
                 </th>
                 <th>
-                  <h3>Remove</h3>
+                  <h5>Remove</h5>
                 </th>
                 <th>
-                  <h3>Subtotal</h3>
+                  <h5>Subtotal</h5>
                 </th>
               </tr>
 
@@ -358,12 +360,12 @@ switch ($action) {
 
                   echo "<tr class='table'>";
                   echo "<td><h5><img height='125px' width='auto' src='img/" . $image . "'></h5></td>";
-                  echo "<td><h5><input type='hidden' required value='" . $id . "' name='pid[]'> " . $name . "</h5></td>";
+                  echo "<td><h5><input type='hidden' required value='" . $id . "' name='bid[]'> " . $name . "</h5></td>";
                   echo "<td><h5><input type='hidden' required value='" . $x . "' name='qty[]'> " . $x . "</h5></td>";
                   echo "<td><h5>" . $price . "</h5></td>";
                   echo "<td><h5><a href='cart.php?id=" . $id . "&action=add'><i class='fas fa-plus'></i></a></h5></td>";
-                  echo "<td><h5><a href='cart.php?id=" . $id . "&action=remove'><i class='fas fa-minus'></i></h5></a></td>";
-                  echo "<td><strong><h3>P " . $line_cost . "</h3></strong>";
+                  echo "<td><h5><a href='cart.php?id=" . $id . "&action=remove'><i class='fas fa-minus'></i></a></h5></td>";
+                  echo "<td><strong><h3>₱ " . $line_cost . "</h3></strong>";
                   echo "</tr>";
                 }
 
@@ -374,12 +376,12 @@ switch ($action) {
                 echo "<td></td>";
                 echo "<td></td>";
                 echo "<td><h2>TOTAL:</h2></td>";
-                echo "<td><strong><input type='hidden' value='" . $total . "' required name='total'><h2 class='text-danger'>P " . $total . "</h2></strong></td>";
+                echo "<td><strong><input type='hidden' value='" . $total . "' required name='total'><h2 class='text-danger'>₱ " . $total . "</h2></strong></td>";
                 echo "<td></td>";
                 echo "<td><a class='btn btn-danger btn-sm pull-right' href='cart.php?id=" . $id . "&action=empty'><i class='fa fa-trash-o'></i> Empty cart</a></td>";
                 echo "</tr>";
               } else
-                echo "<font color='#111' class='alert alert-error' style='float:right'>Cart is empty</font>";
+                echo "<font color='#111' class='alert alert-error' style='float:left'>Cart is empty</font>";
 
               ?>
             </table>
@@ -387,9 +389,8 @@ switch ($action) {
 
             <div class='pull-right text-center'>
               <a href='home.php' class='btn btn-warning btn-lg'>Continue Shopping</a>
-              <?php echo "<button name='pay_now' type='submit' class='btn btn-warning btn-lg' >Purchase</button>";
-              include("paypal.php");
-              ?>
+              <button name='pay_now' type='submit' class='btn btn-warning btn-lg'>Purchase</button>
+              <?php include("paypal.php");?>
           </form>
         </div>
         <!-- /.card -->
@@ -422,7 +423,7 @@ switch ($action) {
   <!-- <script src="js/jquery-ui.min.js"></script> -->
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script>
-    $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button)
   </script>
   <!-- Bootstrap 4 -->
   <script src="AdminLTE-3.0.0-rc.4/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -470,90 +471,90 @@ switch ($action) {
   <script src="AdminLTE-3.0.0-rc.4/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
   <!-- <script src="js/dataTables.bootstrap4.js"></script> -->
   <script>
-    $(function() {
-      $("#example1").DataTable();
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-      });
+  $(function() {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
     });
+  });
   </script>
   <script>
-    $(function() {
-      //Initialize Select2 Elements
-      $('.select2bs4').select2({
-        theme: 'bootstrap4'
-      })
-
-      //Initialize Select2 Elements
-      $('.select2').select2()
-
-      //Datemask dd/mm/yyyy
-      $('#datemask').inputmask('dd/mm/yyyy', {
-        'placeholder': 'dd/mm/yyyy'
-      })
-      //Datemask2 mm/dd/yyyy
-      $('#datemask2').inputmask('mm/dd/yyyy', {
-        'placeholder': 'mm/dd/yyyy'
-      })
-      //Money Euro
-      $('[data-mask]').inputmask()
-
-      //Date range picker
-      $('#reservation').daterangepicker()
-      //Date range picker with time picker
-      $('#reservationtime').daterangepicker({
-        timePicker: true,
-        timePickerIncrement: 30,
-        locale: {
-          format: 'MM/DD/YYYY hh:mm A'
-        }
-      })
-      //Date range as a button
-      $('#daterange-btn').daterangepicker({
-          ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
-              'month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function(start, end) {
-          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-        }
-      )
-
-      //Timepicker
-      $('#timepicker').datetimepicker({
-        format: 'LT'
-      })
-
-      //Bootstrap Duallistbox
-      $('.duallistbox').bootstrapDualListbox()
-
-      //Colorpicker
-      $('.my-colorpicker1').colorpicker()
-      //color picker with addon
-      $('.my-colorpicker2').colorpicker()
-
-      $('.my-colorpicker2').on('colorpickerChange', function(event) {
-        $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-      });
-
-      $("input[data-bootstrap-switch]").each(function() {
-        $(this).bootstrapSwitch('state', $(this).prop('checked'));
-      });
-
+  $(function() {
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
     })
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', {
+      'placeholder': 'dd/mm/yyyy'
+    })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', {
+      'placeholder': 'mm/dd/yyyy'
+    })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker({
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
+            'month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate: moment()
+      },
+      function(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    });
+
+    $("input[data-bootstrap-switch]").each(function() {
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+  })
   </script>
   <?php include("modal-profile.php"); ?>
 </body>
