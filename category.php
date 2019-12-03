@@ -102,9 +102,17 @@ $cat = $_GET['cat'];
       <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
+          <a class="nav-link" data-toggle="dropdown" href="cart.php?action=view">
             <i class="fas fa-shopping-cart"></i>
-            <span class="badge badge-danger navbar-badge"></span>
+            <span class="badge badge-danger navbar-badge">
+              <?php
+              if (!isset($_SESSION['cart'])) {
+                echo 0;
+              } else {
+                echo count($_SESSION['cart']);
+              }
+              ?>
+            </span>
           </a>
         </li>
         <li class="nav-item">
@@ -291,7 +299,7 @@ $cat = $_GET['cat'];
                   echo '<p class="text-muted text-sm">' . $fetch["author"] . '<br>' . $fetch["publisher"] . '<br> Price: <b>P ' . $fetch["price"] . '</b></p>';
                   echo '</div>';
                   echo '<div class="col-12">';
-                  echo '<a href="#" class="btn btn-sm btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
+                  echo '<a href="cart.php?id=' . $bid . '&action=add" class="btn btn-sm btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
                   echo '</div>';
                   echo '</div>';
                   echo '</div>';

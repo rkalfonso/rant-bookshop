@@ -1,8 +1,48 @@
 <?php
 include("config.php");
 include("session.php");
-
 //$mysqli->real_escape_string($username);
+if (isset($_GET['id'])){
+  $id = $_GET['id'];
+  // echo $id . '<br>';
+}
+else{
+  $id = 1;
+  // echo $id . '<br>';
+}
+ 
+if (isset($_GET['action'])){
+  $action = $_GET['action'];
+  // echo $action . '<br>';
+}
+else{
+  $action = "empty";
+  // echo $action . '<br>';
+}
+
+switch ($action) {
+
+  case "view":
+    if (isset($_SESSION['cart'][$id]))
+      $_SESSION['cart'][$id];
+    break;
+  case "add":
+    if (isset($_SESSION['cart'][$id]))
+      $_SESSION['cart'][$id]++;
+    else
+      $_SESSION['cart'][$id] = 1;
+    break;
+  case "remove":
+    if (isset($_SESSION['cart'][$id])) {
+      $_SESSION['cart'][$id]--;
+      if ($_SESSION['cart'][$id] == 0)
+        unset($_SESSION['cart'][$id]);
+    }
+    break;
+  case "empty":
+    unset($_SESSION['cart']);
+    break;
+}
 ?>
 
 <!DOCTYPE html>
@@ -63,13 +103,9 @@ include("session.php");
       font-family: 'Raleway', sans-serif; */
     }
 
-    .hey {
-      width: 800px;
-    }
-
     .cover {
       width: auto;
-      height: 250px;
+      height: 500px;
     }
   </style>
 </head>
@@ -106,7 +142,7 @@ include("session.php");
       <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="cart.php?action=view">
+          <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="fas fa-shopping-cart"></i>
             <span class="badge badge-danger navbar-badge">
               <?php
@@ -202,6 +238,7 @@ include("session.php");
                 while ($fetch_auth = mysqli_fetch_array($query_author)) {
                   echo '<li class="nav-item">';
                   echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
+                  //echo '<i class="far fa-circle nav-icon"></i>';
                   echo '<p>' . $fetch_auth["author"] . '</p>';
                   echo '</a></li>';
                 }
@@ -248,6 +285,8 @@ include("session.php");
       </div>
       <!-- /.sidebar -->
     </aside>
+    <!-- /.main-sidebar -->
+
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -256,13 +295,12 @@ include("session.php");
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Profile</h1>
-            </div>
-            <!--/.col -->
+              <h1 class="m-0 text-dark">Details</h1>
+            </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Featured</li>
+                <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+                <li class="breadcrumb-item active">Details</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -274,90 +312,95 @@ include("session.php");
       <section class="content">
 
         <!-- Default box -->
+        <div id="container">
+          <form method="post" class="well" style="background-color:#fff;">
+            <table class="table">
+              <label style="font-size:25px;">My Cart</label>
+              <tr>
+                <th>
+                  <h3>Image</h3>
+                  </td>
+                <th>
+                  <h3>Product Name</h3>
+                </th>
+                <th>
+                  <h3>Quantity</h3>
+                </th>
+                <th>
+                  <h3>Price</h3>
+                </th>
+                <th>
+                  <h3>Add</h3>
+                </th>
+                <th>
+                  <h3>Remove</h3>
+                </th>
+                <th>
+                  <h3>Subtotal</h3>
+                </th>
+              </tr>
 
-        <div class="card card-warning hey mx-auto">
-          <div class="card-header">
-            <h5>Edit Profile</h5>
-          </div>
-          <!-- /.card-header -->
-          <?php
-          $id = $_GET['id'];
-          $sqlsel_user = "SELECT * FROM customer WHERE customer_id = '$id'";
-          $query_user = $conn->query($sqlsel_user) or die("Could not perform select on table 'customer': " . mysqli_error($conn));
-          $fetch_user = mysqli_fetch_array($query_user);
-          ?>
-          <!-- form start -->
-          <form method="POST" action="update-cx.php?id=<?php echo $fetch_user['customer_id']; ?>">
-            <div class="card-body">
-              <!-- start of the newly added -->
-              <div class="row">
-                <div class="form-group col-sm-12" style="margin-bottom: 0;">
-                  <input type="hidden" name="memberid">
-                  <label for="exampleInputEmail1">Name</label>
-                </div>
-                <div class="form-group col-sm-5">
-                  <!-- <label for="exampleInputEmail1">Name</label> -->
-                  <input type="text" class="form-control" placeholder="First Name" name="fname" required value="<?php echo ucwords($fetch_user['f_name']); ?>">
-                </div>
-                <div class="form-group col-sm-2">
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="M.I." name="mname" maxlength="1" value="<?php echo ucwords($fetch_user['mi']); ?>">
-                </div>
-                <div class="form-group col-sm-5">
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Last Name" name="lname" required value="<?php echo ucwords($fetch_user['l_name']); ?>">
-                </div>
-              </div>
+              <?php
+
+              if (isset($_SESSION['cart'])) {
+
+                $total = 0;
+                foreach ($_SESSION['cart'] as $id => $x) {
+                  $result = mysqli_query($conn, "SELECT * FROM book WHERE book_id=$id");
+                  $myrow = mysqli_fetch_array($result);
+                  $name = $myrow['name'];
+                  $name = substr($name, 0, 40);
+                  $price = $myrow['price'];
+                  $image = $myrow['img'];
+                  $line_cost = $price * $x;
+                  $total = $total + $line_cost;
 
 
-              <div class="row">
-                <div class="form-group col-sm-6">
-                  <label for="exampleInputEmail1">Mailing Address</label>
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Address" name="address" required value="<?php echo ucwords($fetch_user['address']); ?>">
-                </div>
-                <div class="form-group col-sm-3">
-                  <label for="exampleInputEmail1">Country</label>
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Country" name="country" required value="<?php echo ucwords($fetch_user['country']); ?>">
-                </div>
-                <div class="form-group col-sm-3">
-                  <label for="exampleInputEmail1">Zip</label>
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Zip" name="zip" required value="<?php echo ucwords($fetch_user['zip']); ?>">
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-sm-12" style="margin-bottom: 0;">
-                  <label for="exampleInputEmail1 col-sm-12">Contact Information</label>
-                </div>
-                <div class="form-group col-sm-3">
-                  <!-- <label for="exampleInputEmail1">Date of Birth</label> -->
-                  <input type="text" class="form-control" placeholder="Mobile No." name="mobile" value="<?php echo $fetch_user['mobile']; ?>">
-                </div>
-                <div class="form-group col-sm-3">
-                  <!-- <label for="exampleInputEmail1">Place of Birth</label> -->
-                  <input type="text" class="form-control" placeholder="Telephone No." name="telephone" required value="<?php echo $fetch_user['telephone']; ?>">
-                </div>
-                <div class="form-group col-sm-6">
-                  <!-- <label for="exampleInputEmail1">Civil Status</label> -->
-                  <input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo $fetch_user['email']; ?>">
-                </div>
-              </div>
-              <!-- end of the newly added -->
-            </div>
-            <div class="modal-footer">
-              <a href="home.php" class="btn btn-default" data-dismiss="modal"><span class="fas fa-times"></span> Cancel</a>
-              <button type="submit" class="btn btn-warning"><span class="fas fa-check"></span> Submit</button>
-            </div>
+                  echo "<tr class='table'>";
+                  echo "<td><h5><img height='125px' width='auto' src='img/" . $image . "'></h5></td>";
+                  echo "<td><h5><input type='hidden' required value='" . $id . "' name='pid[]'> " . $name . "</h5></td>";
+                  echo "<td><h5><input type='hidden' required value='" . $x . "' name='qty[]'> " . $x . "</h5></td>";
+                  echo "<td><h5>" . $price . "</h5></td>";
+                  echo "<td><h5><a href='cart.php?id=" . $id . "&action=add'><i class='fas fa-plus'></i></a></h5></td>";
+                  echo "<td><h5><a href='cart.php?id=" . $id . "&action=remove'><i class='fas fa-minus'></i></h5></a></td>";
+                  echo "<td><strong><h3>P " . $line_cost . "</h3></strong>";
+                  echo "</tr>";
+                }
+
+                echo "<tr>";
+                // echo "<td></td>";
+                // echo "<td></td>";
+                echo "<td></td>";
+                echo "<td></td>";
+                echo "<td></td>";
+                echo "<td><h2>TOTAL:</h2></td>";
+                echo "<td><strong><input type='hidden' value='" . $total . "' required name='total'><h2 class='text-danger'>P " . $total . "</h2></strong></td>";
+                echo "<td></td>";
+                echo "<td><a class='btn btn-danger btn-sm pull-right' href='cart.php?id=" . $id . "&action=empty'><i class='fa fa-trash-o'></i> Empty cart</a></td>";
+                echo "</tr>";
+              } else
+                echo "<font color='#111' class='alert alert-error' style='float:right'>Cart is empty</font>";
+
+              ?>
+            </table>
+
+
+            <div class='pull-right text-center'>
+              <a href='home.php' class='btn btn-warning btn-lg'>Continue Shopping</a>
+              <?php echo "<button name='pay_now' type='submit' class='btn btn-warning btn-lg' >Purchase</button>";
+              include("paypal.php");
+              ?>
+          </form>
         </div>
-        </form>
-
         <!-- /.card -->
+
       </section>
+
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
+    <!-- footer -->
     <footer class="main-footer">
       <strong>Copyright &copy; 2019 <a href="https://twitter.com/renz_alfons" target="_blank">RKAlfonso.io</a>.</strong>
       All rights reserved.
@@ -365,6 +408,7 @@ include("session.php");
         <b>Version</b> 1.0.0
       </div>
     </footer>
+    <!-- /.main-footer -->
 
     <!-- Control Sidebar -->
   </div>
@@ -512,7 +556,6 @@ include("session.php");
     })
   </script>
   <?php include("modal-profile.php"); ?>
-
 </body>
 
 </html>
