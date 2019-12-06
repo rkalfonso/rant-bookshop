@@ -2,7 +2,45 @@
 include("config.php");
 include("session.php");
 //$mysqli->real_escape_string($username);
-$cat = $_GET['cat'];
+if (isset($_GET['id'])) {
+  $id = $_GET['id'];
+  // echo $id . '<br>';
+} else {
+  $id = 1;
+  // echo $id . '<br>';
+}
+
+if (isset($_GET['action'])) {
+  $action = $_GET['action'];
+  // echo $action . '<br>';
+} else {
+  $action = "empty";
+  // echo $action . '<br>';
+}
+
+switch ($action) {
+
+  case "view":
+    if (isset($_SESSION['cart'][$id]))
+      $_SESSION['cart'][$id];
+    break;
+  case "add":
+    if (isset($_SESSION['cart'][$id]))
+      $_SESSION['cart'][$id]++;
+    else
+      $_SESSION['cart'][$id] = 1;
+    break;
+  case "remove":
+    if (isset($_SESSION['cart'][$id])) {
+      $_SESSION['cart'][$id]--;
+      if ($_SESSION['cart'][$id] == 0)
+        unset($_SESSION['cart'][$id]);
+    }
+    break;
+  case "empty":
+    unset($_SESSION['cart']);
+    break;
+}
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +104,7 @@ $cat = $_GET['cat'];
 
   .cover {
     width: auto;
-    height: 250px;
+    height: 500px;
   }
   </style>
 </head>
@@ -103,16 +141,16 @@ $cat = $_GET['cat'];
       <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-          <a class="nav-link" href="cart.php?action=view">
+          <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="fas fa-shopping-cart"></i>
             <span class="badge badge-danger navbar-badge">
               <?php
-              if (!isset($_SESSION['cart'])) {
-                echo 0;
-              } else {
-                echo count($_SESSION['cart']);
-              }
-              ?>
+                if (!isset($_SESSION['cart'])) {
+                  echo 0;
+                } else {
+                  echo count($_SESSION['cart']);
+                }
+                ?>
             </span>
           </a>
         </li>
@@ -164,7 +202,7 @@ $cat = $_GET['cat'];
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="#" class="nav-link active">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
                   Category
@@ -174,16 +212,16 @@ $cat = $_GET['cat'];
               </a>
               <ul class="nav nav-treeview">
                 <?php
-                $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
-                $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " . mysqli_error($conn));
-                while ($fetch_cat = mysqli_fetch_array($query_category)) {
-                  echo '<li class="nav-item">';
-                  echo '<a href="category.php?cat=' . $fetch_cat["category"] . '" class="nav-link">';
-                  //echo '<i class="far fa-circle nav-icon"></i>';
-                  echo '<p>' . $fetch_cat["category"] . '</p>';
-                  echo '</a></li>';
-                }
-                ?>
+                  $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
+                  $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " . mysqli_error($conn));
+                  while ($fetch_cat = mysqli_fetch_array($query_category)) {
+                    echo '<li class="nav-item">';
+                    echo '<a href="category.php?cat=' . $fetch_cat["category"] . '" class="nav-link">';
+                    //echo '<i class="far fa-circle nav-icon"></i>';
+                    echo '<p>' . $fetch_cat["category"] . '</p>';
+                    echo '</a></li>';
+                  }
+                  ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -196,16 +234,16 @@ $cat = $_GET['cat'];
               </a>
               <ul class="nav nav-treeview">
                 <?php
-                $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
-                $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " . mysqli_error($conn));
-                while ($fetch_auth = mysqli_fetch_array($query_author)) {
-                  echo '<li class="nav-item">';
-                  echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
-                  //echo '<i class="far fa-circle nav-icon"></i>';
-                  echo '<p>' . $fetch_auth["author"] . '</p>';
-                  echo '</a></li>';
-                }
-                ?>
+                  $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
+                  $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " . mysqli_error($conn));
+                  while ($fetch_auth = mysqli_fetch_array($query_author)) {
+                    echo '<li class="nav-item">';
+                    echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
+                    //echo '<i class="far fa-circle nav-icon"></i>';
+                    echo '<p>' . $fetch_auth["author"] . '</p>';
+                    echo '</a></li>';
+                  }
+                  ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -248,6 +286,8 @@ $cat = $_GET['cat'];
       </div>
       <!-- /.sidebar -->
     </aside>
+    <!-- /.main-sidebar -->
+
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -256,13 +296,12 @@ $cat = $_GET['cat'];
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Category > <?php echo $cat ?></h1>
+              <h1 class="m-0 text-dark">Summary of Order/s</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Category</li>
-                <li class="breadcrumb-item active"><?php echo $cat ?></li>
+                <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+                <li class="breadcrumb-item active">Cart</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -274,49 +313,75 @@ $cat = $_GET['cat'];
       <section class="content">
 
         <!-- Default box -->
-        <div class="card card-solid">
-          <div class="card-body pb-0">
-            <div class="row d-flex align-items-stretch">
+        <div id="container">
+          <form method="post" class="well" style="background-color:#fff; overflow:hidden;">
+            <table align="center" class="table" style="width:50%;">
+              <!-- <label style="font-size:25px;">Summary of Order/s</label> -->
+              <tr>
+                <th>
+                  <h5>Quantity</h5>
+                </th>
+                <th>
+                  <h5>Product Name</h5>
+                </th>
+                <!-- <th>
+                  <h5>Size</h5>
+                  </td> -->
+                <th>
+                  <h5>Price</h5>
+                </th>
+              </tr>
+
               <?php
-              $sql_select = "SELECT * FROM book WHERE category = '$cat' ORDER BY name asc";
-              $query = $conn->query($sql_select) or die("Could not perform select in book table:" . mysqli_error($conn));
+                $t_id = $_GET['tid'];
+                $query = mysqli_query($conn, "SELECT * FROM transaction WHERE transaction_id = '$t_id'") or die(mysqli_error($conn));
+                $fetch = mysqli_fetch_array($query);
 
-              while ($fetch = mysqli_fetch_array($query)) {
-                $bid = $fetch['book_id'];
+                $amnt = $fetch['amount'];
+                $t_id = $fetch['transaction_id'];
 
-                $sql_select_stock = "SELECT * FROM stock where book_id = '$bid'";
-                $query2 = $conn->query($sql_select_stock) or die("Could not perform select in stock table:" . mysqli_error($conn));
-                $row = mysqli_fetch_array($query2);
-                $qty = $row['qty'];
-                if ($qty <= 5) { } else {
-                  echo '<div class="col-12 col-sm-6 col-md-3 d-flex align-items-stretch">';
-                  echo '<div class="card bg-light">';
-                  echo '<div class="card-header text-muted border-bottom-0">' . $fetch['category'] . '</div>';
-                  echo '<div class="card-body pt-0">';
-                  echo '<div class="row">';
-                  echo '<div class="col-12 text-center">';
-                  echo '<center><a href="details.php?id=' . $bid . '"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';
-                  echo '</div>';
-                  echo '<div class="col-12 ">';
-                  echo '<h6 class="text-center"><br><b>' . $fetch["name"] . '</b> </h6>';
-                  echo '<p class="text-muted text-sm">' . $fetch["author"] . '<br>' . $fetch["publisher"] . '<br> Price: <b>P ' . $fetch["price"] . '</b></p>';
-                  echo '</div>';
-                  echo '<div class="col-12">';
-                  echo '<a href="cart.php?id=' . $bid . '&action=add" class="btn btn-sm btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
+                $query2 = mysqli_query($conn, "SELECT * FROM transaction_detail LEFT JOIN book ON book.book_id = transaction_detail.product_id WHERE transaction_detail.transaction_id = '$t_id'") or die(mysqli_error($conn));
+                while ($row = mysqli_fetch_array($query2)) {
+                  $book_id = $row['book_id'];
+                  $pname = $row['name'];
+                  $pprice = $row['price'];
+                  $oqty = $row['order_qty'];
+                  $tprice = $oqty * $pprice;
+
+                  echo "<tr>";
+                  echo "<td>" . $oqty . "</td>";
+                  echo "<td>" . $pname . "</td>";
+                  echo "<td>" . $tprice . "</td>";
+                  echo "</tr>";
                 }
-              }
-              ?>
+                ?>
+
+            </table>
+            <legend></legend>
+            <div class="row">
+              <div class="col-sm-4">
+
+              </div>
+              <div class="col-sm-4">
+                <h4 class="mb-0">TOTAL: Php <?php echo $amnt; ?>.00</h4>
+              </div>
+              <div class="col-sm-4">
+                <a href="post-paym.php?id=<?php echo $t_id; ?>" class="btn btn-warning"><i class="fas fa-check"></i>
+                  Submit Order</a>
+              </div>
+              <div class="col-sm-4"></div>
             </div>
-            <!-- /.card -->
+          </form>
+        </div>
+        <!-- /.card -->
+
       </section>
+
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
+    <!-- footer -->
     <footer class="main-footer">
       <strong>Copyright &copy; 2019 <a href="https://twitter.com/renz_alfons" target="_blank">RKAlfonso.io</a>.</strong>
       All rights reserved.
@@ -324,6 +389,7 @@ $cat = $_GET['cat'];
         <b>Version</b> 1.0.0
       </div>
     </footer>
+    <!-- /.main-footer -->
 
     <!-- Control Sidebar -->
   </div>
@@ -471,7 +537,6 @@ $cat = $_GET['cat'];
   })
   </script>
   <?php include("modal-profile.php"); ?>
-
 </body>
 
 </html>

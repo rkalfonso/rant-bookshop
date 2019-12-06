@@ -2,20 +2,18 @@
 include("config.php");
 include("session.php");
 //$mysqli->real_escape_string($username);
-if (isset($_GET['id'])){
+if (isset($_GET['id'])) {
   $id = $_GET['id'];
   // echo $id . '<br>';
-}
-else{
+} else {
   $id = 1;
   // echo $id . '<br>';
 }
- 
-if (isset($_GET['action'])){
+
+if (isset($_GET['action'])) {
   $action = $_GET['action'];
   // echo $action . '<br>';
-}
-else{
+} else {
   $action = "empty";
   // echo $action . '<br>';
 }
@@ -147,12 +145,12 @@ switch ($action) {
             <i class="fas fa-shopping-cart"></i>
             <span class="badge badge-danger navbar-badge">
               <?php
-              if (!isset($_SESSION['cart'])) {
-                echo 0;
-              } else {
-                echo count($_SESSION['cart']);
-              }
-              ?>
+                if (!isset($_SESSION['cart'])) {
+                  echo 0;
+                } else {
+                  echo count($_SESSION['cart']);
+                }
+                ?>
             </span>
           </a>
         </li>
@@ -214,16 +212,16 @@ switch ($action) {
               </a>
               <ul class="nav nav-treeview">
                 <?php
-                $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
-                $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " . mysqli_error($conn));
-                while ($fetch_cat = mysqli_fetch_array($query_category)) {
-                  echo '<li class="nav-item">';
-                  echo '<a href="category.php?cat=' . $fetch_cat["category"] . '" class="nav-link">';
-                  //echo '<i class="far fa-circle nav-icon"></i>';
-                  echo '<p>' . $fetch_cat["category"] . '</p>';
-                  echo '</a></li>';
-                }
-                ?>
+                  $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
+                  $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " . mysqli_error($conn));
+                  while ($fetch_cat = mysqli_fetch_array($query_category)) {
+                    echo '<li class="nav-item">';
+                    echo '<a href="category.php?cat=' . $fetch_cat["category"] . '" class="nav-link">';
+                    //echo '<i class="far fa-circle nav-icon"></i>';
+                    echo '<p>' . $fetch_cat["category"] . '</p>';
+                    echo '</a></li>';
+                  }
+                  ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -236,16 +234,16 @@ switch ($action) {
               </a>
               <ul class="nav nav-treeview">
                 <?php
-                $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
-                $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " . mysqli_error($conn));
-                while ($fetch_auth = mysqli_fetch_array($query_author)) {
-                  echo '<li class="nav-item">';
-                  echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
-                  //echo '<i class="far fa-circle nav-icon"></i>';
-                  echo '<p>' . $fetch_auth["author"] . '</p>';
-                  echo '</a></li>';
-                }
-                ?>
+                  $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
+                  $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " . mysqli_error($conn));
+                  while ($fetch_auth = mysqli_fetch_array($query_author)) {
+                    echo '<li class="nav-item">';
+                    echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
+                    //echo '<i class="far fa-circle nav-icon"></i>';
+                    echo '<p>' . $fetch_auth["author"] . '</p>';
+                    echo '</a></li>';
+                  }
+                  ?>
               </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -303,7 +301,7 @@ switch ($action) {
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="home.php">Home</a></li>
-                <li class="breadcrumb-item active">Details</li>
+                <li class="breadcrumb-item active">Cart</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -320,77 +318,77 @@ switch ($action) {
             <table class="table">
               <tr>
                 <th>
-                  <h5>Image</h5>
+                  <h5><b>Image</b></h5>
                   </td>
                 <th>
-                  <h5>Product Name</h5>
+                  <h5><b>Title</b></h5>
                 </th>
                 <th>
-                  <h5>Quantity</h5>
+                  <h5><b>Quantity</b></h5>
                 </th>
                 <th>
-                  <h5>Price</h5>
+                  <h5><b>Price</b></h5>
                 </th>
                 <th>
-                  <h5>Add</h5>
+                  <h5><b>Add</b></h5>
                 </th>
                 <th>
-                  <h5>Remove</h5>
+                  <h5><b>Remove</b></h5>
                 </th>
                 <th>
-                  <h5>Subtotal</h5>
+                  <h5><b>Subtotal</b></h5>
                 </th>
               </tr>
 
               <?php
 
-              if (isset($_SESSION['cart'])) {
+                if (isset($_SESSION['cart'])) {
+                  //print_r($_SESSION['cart']);
+                  $total = 0;
+                  foreach ($_SESSION['cart'] as $id => $x) {
+                    $result = mysqli_query($conn, "SELECT * FROM book WHERE book_id=$id");
+                    $myrow = mysqli_fetch_array($result);
+                    $name = $myrow['name'];
+                    $name = substr($name, 0, 40);
+                    $price = $myrow['price'];
+                    $image = $myrow['img'];
+                    $line_cost = $price * $x;
+                    $total = $total + $line_cost;
 
-                $total = 0;
-                foreach ($_SESSION['cart'] as $id => $x) {
-                  $result = mysqli_query($conn, "SELECT * FROM book WHERE book_id=$id");
-                  $myrow = mysqli_fetch_array($result);
-                  $name = $myrow['name'];
-                  $name = substr($name, 0, 40);
-                  $price = $myrow['price'];
-                  $image = $myrow['img'];
-                  $line_cost = $price * $x;
-                  $total = $total + $line_cost;
 
+                    echo "<tr class='table'>";
+                    echo "<td><h5><img height='125px' width='auto' src='img/" . $image . "'></h5></td>";
+                    echo "<td><h5><input type='hidden' required value='" . $id . "' name='pid[]'> " . $name . "</h5></td>";
+                    echo "<td><h5><input type='hidden' required value='" . $x . "' name='qty[]'> " . $x . "</h5></td>";
+                    echo "<td><h5>" . $price . "</h5></td>";
+                    echo "<td><h5><a href='cart.php?id=" . $id . "&action=add'><i class='fas fa-plus'></i></a></h5></td>";
+                    echo "<td><h5><a href='cart.php?id=" . $id . "&action=remove'><i class='fas fa-minus'></i></a></h5></td>";
+                    echo "<td><strong><h3>₱ " . $line_cost . "</h3></strong>";
+                    echo "</tr>";
+                  }
 
-                  echo "<tr class='table'>";
-                  echo "<td><h5><img height='125px' width='auto' src='img/" . $image . "'></h5></td>";
-                  echo "<td><h5><input type='hidden' required value='" . $id . "' name='bid[]'> " . $name . "</h5></td>";
-                  echo "<td><h5><input type='hidden' required value='" . $x . "' name='qty[]'> " . $x . "</h5></td>";
-                  echo "<td><h5>" . $price . "</h5></td>";
-                  echo "<td><h5><a href='cart.php?id=" . $id . "&action=add'><i class='fas fa-plus'></i></a></h5></td>";
-                  echo "<td><h5><a href='cart.php?id=" . $id . "&action=remove'><i class='fas fa-minus'></i></a></h5></td>";
-                  echo "<td><strong><h3>₱ " . $line_cost . "</h3></strong>";
+                  echo "<tr>";
+                  // echo "<td></td>";
+                  // echo "<td></td>";
+                  echo "<td></td>";
+                  echo "<td></td>";
+                  echo "<td></td>";
+                  echo "<td><h2>TOTAL:</h2></td>";
+                  echo "<td><strong><input type='hidden' value='" . $total . "' required name='total'><h2 class='text-danger'>₱ " . $total . "</h2></strong></td>";
+                  echo "<td></td>";
+                  echo "<td><a class='btn btn-danger btn-sm pull-right' href='cart.php?id=" . $id . "&action=empty'><i class='fa fa-trash-o'></i> Empty cart</a></td>";
                   echo "</tr>";
-                }
+                } else
+                  echo "<font color='#111' class='alert alert-error' style='float:left'>Cart is empty</font>";
 
-                echo "<tr>";
-                // echo "<td></td>";
-                // echo "<td></td>";
-                echo "<td></td>";
-                echo "<td></td>";
-                echo "<td></td>";
-                echo "<td><h2>TOTAL:</h2></td>";
-                echo "<td><strong><input type='hidden' value='" . $total . "' required name='total'><h2 class='text-danger'>₱ " . $total . "</h2></strong></td>";
-                echo "<td></td>";
-                echo "<td><a class='btn btn-danger btn-sm pull-right' href='cart.php?id=" . $id . "&action=empty'><i class='fa fa-trash-o'></i> Empty cart</a></td>";
-                echo "</tr>";
-              } else
-                echo "<font color='#111' class='alert alert-error' style='float:left'>Cart is empty</font>";
-
-              ?>
+                ?>
             </table>
 
 
             <div class='pull-right text-center'>
               <a href='home.php' class='btn btn-warning btn-lg'>Continue Shopping</a>
               <button name='pay_now' type='submit' class='btn btn-warning btn-lg'>Purchase</button>
-              <?php include("paypal.php");?>
+              <?php include("paypal.php"); ?>
           </form>
         </div>
         <!-- /.card -->
