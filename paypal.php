@@ -1,5 +1,6 @@
 <?php
 include('config.php');
+//include('session.php');
 if (isset($_POST['pay_now'])) {
 	$cid = $_SESSION['id'];
 	$total = $_POST['total'];
@@ -7,7 +8,7 @@ if (isset($_POST['pay_now'])) {
 	include("random-code.php");
 	$t_id = $r_id;
 	$date = date("M d, Y");
-	$que = mysqli_query($conn, "INSERT INTO `transaction` (transaction_id, customer_id, amount, order_stat, order_date) VALUES ('$t_id', '$cid', '$total', 'ON HOLD', '$date')") or die("Cannot perform insert on table 'transaction': " . mysqli_error($conn));
+	$que = mysqli_query($conn, "INSERT INTO `transaction` (transaction_id, customer_id, amount, order_stat, order_date) VALUES ('$t_id', '1', '$total', 'ON HOLD', '$date')") or die("Cannot perform insert on table 'transaction': " . mysqli_error($conn));
 
 	$_SESSION['pid'] = $_POST['pid'];
 	$oqty = $_POST['qty'];

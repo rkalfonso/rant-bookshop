@@ -9,6 +9,11 @@ if (isset($_GET['id'])) {
   $id = 1;
   // echo $id . '<br>';
 }
+if (isset($_GET['qty'])) {
+  $amt = $_GET['qty'];
+} else {
+  $amt = 100;
+}
 
 if (isset($_GET['action'])) {
   $action = $_GET['action'];
@@ -25,10 +30,18 @@ switch ($action) {
       $_SESSION['cart'][$id];
     break;
   case "add":
-    if (isset($_SESSION['cart'][$id]))
-      $_SESSION['cart'][$id]++;
-    else
+    if (isset($_SESSION['cart'][$id])) {
+      $query100 = $conn->query("SELECT * FROM stock WHERE book_id = '$id'") or die("Could not perform select on table 'stock': " . mysqli_error($conn));
+      $row100 = mysqli_fetch_array($query100);
+      $qty = $row100['qty'];
+      if ($amt >= $qty) {
+        echo "<script> alert('Oh no! Not enough on stock!'); </script>";
+      } else {
+        $_SESSION['cart'][$id]++;
+      }
+    } else {
       $_SESSION['cart'][$id] = 1;
+    }
     break;
   case "remove":
     if (isset($_SESSION['cart'][$id])) {
@@ -42,7 +55,6 @@ switch ($action) {
     break;
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <!-- navbar color: #007bff -->
@@ -112,7 +124,12 @@ switch ($action) {
 
 
 <body class="hold-transition sidebar-mini sidebar-collapse layout-navbar-fixed layout-fixed">
-
+  <?php
+    function phpAlert($msg)
+    {
+      echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+    }
+    ?>
   <div class="wrapper">
 
     <!-- Navbar -->
@@ -246,40 +263,6 @@ switch ($action) {
                   ?>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fab fa-audible"></i>
-                <p>
-                  Audiobooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/UI/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tablet-alt"></i>
-                <p>
-                  Ebooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/forms/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General Elements</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -341,7 +324,7 @@ switch ($action) {
               </tr>
 
               <?php
-
+                //echo $amt;
                 if (isset($_SESSION['cart'])) {
                   //print_r($_SESSION['cart']);
                   $total = 0;
@@ -361,7 +344,7 @@ switch ($action) {
                     echo "<td><h5><input type='hidden' required value='" . $id . "' name='pid[]'> " . $name . "</h5></td>";
                     echo "<td><h5><input type='hidden' required value='" . $x . "' name='qty[]'> " . $x . "</h5></td>";
                     echo "<td><h5>" . $price . "</h5></td>";
-                    echo "<td><h5><a href='cart.php?id=" . $id . "&action=add'><i class='fas fa-plus'></i></a></h5></td>";
+                    echo "<td><h5><a href='cart.php?id=" . $id . "&action=add&qty=" . $x . "'><i class='fas fa-plus'></i></a></h5></td>";
                     echo "<td><h5><a href='cart.php?id=" . $id . "&action=remove'><i class='fas fa-minus'></i></a></h5></td>";
                     echo "<td><strong><h3>₱ " . $line_cost . "</h3></strong>";
                     echo "</tr>";

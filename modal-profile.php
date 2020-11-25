@@ -84,7 +84,8 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fas fa-times"></span>
           Cancel</button>
-        <a href="account.php?id=<?php echo $fetch_cust['customer_id']; ?>" class="btn btn-warning"><span class="fas fa-edit"></span>Edit Profile</a>
+        <a href="account.php?id=<?php echo $fetch_cust['customer_id']; ?>" class="btn btn-warning"><span
+            class="fas fa-edit"></span>Edit Profile</a>
       </div>
       </form>
     </div>

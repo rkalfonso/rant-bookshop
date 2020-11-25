@@ -93,12 +93,8 @@ $fetch_id = mysqli_fetch_array($query_id);
         <li class="nav-item d-none d-sm-inline-block">
           <a href="home.php" class="nav-link">Featured</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="home.php" class="nav-link">All Books</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">About Us</a>
-        </li>
+
+
       </ul>
 
 
@@ -120,7 +116,7 @@ $fetch_id = mysqli_fetch_array($query_id);
           </a>
         </li>
         <li class="nav-item">
-          <a href="#profile" data-toggle="modal" class="nav-link">Hi <?php echo $_SESSION['name'] ?>!</a>
+          <a href="#profile" data-toggle="modal" class="nav-link">Hi <?php echo $_SESSION['name']; ?>!</a>
         </li>
         <li class="nav-item">
           <a href="logout.php" class="nav-link">Logout</a>
@@ -209,40 +205,6 @@ $fetch_id = mysqli_fetch_array($query_id);
                   echo '</a></li>';
                 }
                 ?>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fab fa-audible"></i>
-                <p>
-                  Audiobooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/UI/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tablet-alt"></i>
-                <p>
-                  Ebooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/forms/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General Elements</p>
-                  </a>
-                </li>
               </ul>
             </li>
           </ul>

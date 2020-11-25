@@ -12,7 +12,7 @@ $result = $conn->query($query_login) or die("Could not select on table customer:
 
 if ($result->num_rows == 1) {
 	$row_session = mysqli_fetch_array($result);
-	$_SESSION['username'] = ucwords($row_session['username']) . ' ' . ucwords($row_session['l_name']);
+	$_SESSION['username'] = $row_session['username'];
 	$_SESSION['id'] = $row_session['customer_id'];
 	// echo $_SESSION['name'];
 	// echo '<br>';

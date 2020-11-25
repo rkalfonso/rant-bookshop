@@ -59,12 +59,7 @@ include('session.php');
         <li class="nav-item d-none d-sm-inline-block">
           <a href="home.php" class="nav-link">Featured</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="home.php" class="nav-link">All Books</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">About Us</a>
-        </li>
+
       </ul>
 
       <!-- Right navbar links -->
@@ -97,7 +92,7 @@ include('session.php');
 
     <aside class="main-sidebar sidebar-light-yellow elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="home.php" class="brand-link">
         <img src="photo/logo-rant2.png" alt="Rant Bookshop Logo" class="brand-image img-circle elevation-3"
           style="opacity: .8">
         <span class="brand-text font-weight-light logo-rant">Rant Bookshop</span>
@@ -175,40 +170,6 @@ include('session.php');
                 ?>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fab fa-audible"></i>
-                <p>
-                  Audiobooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/UI/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tablet-alt"></i>
-                <p>
-                  Ebooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/forms/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General Elements</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -244,6 +205,7 @@ include('session.php');
           <div class="card-body pb-0">
             <div class="row d-flex align-items-stretch">
               <?php
+
               $sql_select = "SELECT * FROM book WHERE featured = '1' ORDER BY name asc";
               $query = $conn->query($sql_select) or die("Could not perform select in book table:" . mysqli_error($conn));
 
@@ -268,7 +230,7 @@ include('session.php');
                   echo '<p class="text-muted text-sm">' . $fetch["author"] . '<br>' . $fetch["publisher"] . '<br> Price: <b>P ' . $fetch["price"] . '</b></p>';
                   echo '</div>';
                   echo '<div class="col-12">';
-                  echo '<a href="cart.php?id=' . $bid . '&action=add" class="btn btn-sm btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
+                  echo '<a href="cart.php?id=' . $bid . '&action=add&qty=500" class="btn btn-primary btn-block"><i class="fas fa-shopping-cart"></i> Add to Cart</a>';
                   echo '</div>';
                   echo '</div>';
                   echo '</div>';

@@ -1,8 +1,11 @@
 <?php
 include("config.php");
-include("session.php");
-
+//include("session.php");
 //$mysqli->real_escape_string($username);
+$id = $_GET['id'];
+$sql_sel_id = "SELECT * FROM book where book_id = '$id'";
+$query_id = mysqli_query($conn, $sql_sel_id) or die("Could not select on table 'book': " . mysqli_error($conn));
+$fetch_id = mysqli_fetch_array($query_id);
 ?>
 
 <!DOCTYPE html>
@@ -64,13 +67,9 @@ include("session.php");
       font-family: 'Raleway', sans-serif; */
   }
 
-  .hey {
-    width: 800px;
-  }
-
   .cover {
     width: auto;
-    height: 250px;
+    height: 500px;
   }
   </style>
 </head>
@@ -94,12 +93,7 @@ include("session.php");
         <li class="nav-item d-none d-sm-inline-block">
           <a href="home.php" class="nav-link">Featured</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="home.php" class="nav-link">All Books</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">About Us</a>
-        </li>
+
       </ul>
 
 
@@ -107,24 +101,14 @@ include("session.php");
       <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-          <a class="nav-link" href="cart.php?action=view">
+          <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="fas fa-shopping-cart"></i>
-            <span class="badge badge-danger navbar-badge">
-              <?php
-              if (!isset($_SESSION['cart'])) {
-                echo 0;
-              } else {
-                echo count($_SESSION['cart']);
-              }
-              ?>
-            </span>
+            <span class="badge badge-danger navbar-badge">0</span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="#profile" data-toggle="modal" class="nav-link">Hi <?php echo $_SESSION['name'] ?>!</a>
-        </li>
-        <li class="nav-item">
-          <a href="logout.php" class="nav-link">Logout</a>
+          <a href="login.html" class="nav-link">Login
+          </a>
         </li>
         <!-- Notifications Dropdown Menu -->
       </ul>
@@ -144,11 +128,13 @@ include("session.php");
       <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div class="image">
-            <img src="photo/<?php echo $_SESSION['img'] ?>" class="img-circle elevation-2" alt="User Image">
-          </div>
-          <div class="info">
-            <a href="#" class="d-block"><?php echo $_SESSION['name'] ?></a>
+          <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+              <img src="photo/user.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+              <a href="login.html" class="d-block">Login</a>
+            </div>
           </div>
         </div>
 
@@ -205,6 +191,7 @@ include("session.php");
                 while ($fetch_auth = mysqli_fetch_array($query_author)) {
                   echo '<li class="nav-item">';
                   echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
+                  //echo '<i class="far fa-circle nav-icon"></i>';
                   echo '<p>' . $fetch_auth["author"] . '</p>';
                   echo '</a></li>';
                 }
@@ -225,13 +212,13 @@ include("session.php");
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0 text-dark">Profile</h1>
-            </div>
-            <!--/.col -->
+              <h1 class="m-0 text-dark">Details</h1>
+            </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Featured</li>
+                <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+                <li class="breadcrumb-item active">Book Details</li>
+                <li class="breadcrumb-item active"><?php echo $fetch_id['name'] ?></li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -243,97 +230,68 @@ include("session.php");
       <section class="content">
 
         <!-- Default box -->
+        <div class="card card-solid">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-sm-6">
+                <h3 class="d-inline-block d-sm-none"><?php echo $fetch_id['name'] ?></h3>
+                <div class="col-12">
+                  <center><img src="img/<?php echo $fetch_id['img'] ?>" class="product-image cover" alt="Product Image">
+                  </center>
+                </div>
+                <!-- <div class="col-12 product-image-thumbs">
+                  <div class="product-image-thumb active"><img src="../../dist/img/prod-1.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-2.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-3.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-4.jpg" alt="Product Image"></div>
+                  <div class="product-image-thumb" ><img src="../../dist/img/prod-5.jpg" alt="Product Image"></div>
+                </div> -->
+              </div>
+              <div class="col-12 col-sm-6">
+                <h3 class="my-3"><?php echo $fetch_id['name'] ?></h3>
+                <p><?php echo $fetch_id['description'] ?></p>
 
-        <div class="card card-warning hey mx-auto">
-          <div class="card-header">
-            <h5>Edit Profile</h5>
+                <hr>
+                <h4><b>Details</b></h4>
+                <h6><b>Author: </b><?php echo $fetch_id['author'] ?></h6>
+                <h6><b>Publisher: </b><?php echo $fetch_id['publisher'] ?></h6>
+                <h6><b>Category: </b><?php echo $fetch_id['category'] ?></h6>
+
+                <div class="bg-gray py-2 px-3 mt-4">
+                  <h2 class="mb-0">
+                    ₱ <?php echo $fetch_id['price'] ?>
+                  </h2>
+                </div>
+
+                <div class="mt-4">
+                  <a href="login.html" class="btn btn-warning btn-lg"><i class="fas fa-cart-plus fa-lg mr-2"></i>Add to
+                    Cart</a>
+                </div>
+
+                <div class="mt-4 product-share">
+                  <a href="#" class="text-gray">
+                    <i class="fab fa-facebook-square fa-2x"></i>
+                  </a>
+                  <a href="#" class="text-gray">
+                    <i class="fab fa-twitter-square fa-2x"></i>
+                  </a>
+                  <a href="#" class="text-gray">
+                    <i class="fas fa-envelope-square fa-2x"></i>
+                  </a>
+                  <a href="#" class="text-gray">
+                    <i class="fas fa-rss-square fa-2x"></i>
+                  </a>
+                </div>
+
+              </div>
+            </div>
           </div>
-          <!-- /.card-header -->
-          <?php
-          $id = $_GET['id'];
-          $sqlsel_user = "SELECT * FROM customer WHERE customer_id = '$id'";
-          $query_user = $conn->query($sqlsel_user) or die("Could not perform select on table 'customer': " . mysqli_error($conn));
-          $fetch_user = mysqli_fetch_array($query_user);
-          ?>
-          <!-- form start -->
-          <form method="POST" action="update-cx.php?id=<?php echo $fetch_user['customer_id']; ?>">
-            <div class="card-body">
-              <!-- start of the newly added -->
-              <div class="row">
-                <div class="form-group col-sm-12" style="margin-bottom: 0;">
-                  <input type="hidden" name="memberid">
-                  <label for="exampleInputEmail1">Name</label>
-                </div>
-                <div class="form-group col-sm-5">
-                  <!-- <label for="exampleInputEmail1">Name</label> -->
-                  <input type="text" class="form-control" placeholder="First Name" name="fname" required
-                    value="<?php echo ucwords($fetch_user['f_name']); ?>">
-                </div>
-                <div class="form-group col-sm-2">
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="M.I." name="mname" maxlength="1"
-                    value="<?php echo ucwords($fetch_user['mi']); ?>">
-                </div>
-                <div class="form-group col-sm-5">
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Last Name" name="lname" required
-                    value="<?php echo ucwords($fetch_user['l_name']); ?>">
-                </div>
-              </div>
-
-
-              <div class="row">
-                <div class="form-group col-sm-6">
-                  <label for="exampleInputEmail1">Mailing Address</label>
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Address" name="address" required
-                    value="<?php echo ucwords($fetch_user['address']); ?>">
-                </div>
-                <div class="form-group col-sm-3">
-                  <label for="exampleInputEmail1">Country</label>
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Country" name="country" required
-                    value="<?php echo ucwords($fetch_user['country']); ?>">
-                </div>
-                <div class="form-group col-sm-3">
-                  <label for="exampleInputEmail1">Zip</label>
-                  <!-- <label for="exampleInputPassword1"> </label> -->
-                  <input type="text" class="form-control" placeholder="Zip" name="zip" required
-                    value="<?php echo ucwords($fetch_user['zip']); ?>">
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-sm-12" style="margin-bottom: 0;">
-                  <label for="exampleInputEmail1 col-sm-12">Contact Information</label>
-                </div>
-                <div class="form-group col-sm-3">
-                  <!-- <label for="exampleInputEmail1">Date of Birth</label> -->
-                  <input type="text" class="form-control" placeholder="Mobile No." name="mobile"
-                    value="<?php echo $fetch_user['mobile']; ?>">
-                </div>
-                <div class="form-group col-sm-3">
-                  <!-- <label for="exampleInputEmail1">Place of Birth</label> -->
-                  <input type="text" class="form-control" placeholder="Telephone No." name="telephone" required
-                    value="<?php echo $fetch_user['telephone']; ?>">
-                </div>
-                <div class="form-group col-sm-6">
-                  <!-- <label for="exampleInputEmail1">Civil Status</label> -->
-                  <input type="email" class="form-control" placeholder="Email" name="email"
-                    value="<?php echo $fetch_user['email']; ?>">
-                </div>
-              </div>
-              <!-- end of the newly added -->
-            </div>
-            <div class="modal-footer">
-              <a href="home.php" class="btn btn-default" data-dismiss="modal"><span class="fas fa-times"></span>
-                Cancel</a>
-              <button type="submit" class="btn btn-warning"><span class="fas fa-check"></span> Submit</button>
-            </div>
+          <!-- /.card-body -->
         </div>
-        </form>
-
         <!-- /.card -->
+
       </section>
+
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -491,7 +449,6 @@ include("session.php");
   })
   </script>
   <?php include("modal-profile.php"); ?>
-
 </body>
 
 </html>

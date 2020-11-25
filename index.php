@@ -164,15 +164,15 @@ include("config.php");
               </a>
               <ul class="nav nav-treeview">
                 <?php
-                  $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
-                  $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " .mysqli_error($conn));
-                  while($fetch_cat = mysqli_fetch_array($query_category)){
-                    echo '<li class="nav-item">';
-                    echo '<a href="category.php?cat='. $fetch_cat["category"] .'" class="nav-link">';
-                    //echo '<i class="far fa-circle nav-icon"></i>';
-                    echo '<p>'. $fetch_cat["category"] .'</p>';
-                    echo '</a></li>';
-                  }
+                $sql_sel_category = "SELECT DISTINCT category FROM book ORDER BY category";
+                $query_category = $conn->query($sql_sel_category) or die("Could not insert in table category; " . mysqli_error($conn));
+                while ($fetch_cat = mysqli_fetch_array($query_category)) {
+                  echo '<li class="nav-item">';
+                  echo '<a href="category.php?cat=' . $fetch_cat["category"] . '" class="nav-link">';
+                  //echo '<i class="far fa-circle nav-icon"></i>';
+                  echo '<p>' . $fetch_cat["category"] . '</p>';
+                  echo '</a></li>';
+                }
                 ?>
               </ul>
             </li>
@@ -186,50 +186,16 @@ include("config.php");
               </a>
               <ul class="nav nav-treeview">
                 <?php
-                  $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
-                  $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " .mysqli_error($conn));
-                  while($fetch_auth = mysqli_fetch_array($query_author)){
-                    echo '<li class="nav-item">';
-                    echo '<a href="author.php?author='. $fetch_auth["author"] .'" class="nav-link">';
-                    //echo '<i class="far fa-circle nav-icon"></i>';
-                    echo '<p>'. $fetch_auth["author"] .'</p>';
-                    echo '</a></li>';
-                  }
+                $sql_sel_author = "SELECT DISTINCT author FROM book ORDER BY author";
+                $query_author = $conn->query($sql_sel_author) or die("Could not insert in table author; " . mysqli_error($conn));
+                while ($fetch_auth = mysqli_fetch_array($query_author)) {
+                  echo '<li class="nav-item">';
+                  echo '<a href="author.php?author=' . $fetch_auth["author"] . '" class="nav-link">';
+                  //echo '<i class="far fa-circle nav-icon"></i>';
+                  echo '<p>' . $fetch_auth["author"] . '</p>';
+                  echo '</a></li>';
+                }
                 ?>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fab fa-audible"></i>
-                <p>
-                  Audiobooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/UI/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-tablet-alt"></i>
-                <p>
-                  Ebooks
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/forms/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General Elements</p>
-                  </a>
-                </li>
               </ul>
             </li>
           </ul>
@@ -284,7 +250,7 @@ include("config.php");
                   echo '<div class="card-body pt-0">';
                   echo '<div class="row">';
                   echo '<div class="col-12 text-center">';
-                  echo '<center><a href="#"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';
+                  echo '<center><a href="details2.php?id=' . $bid . '"><img src="img/' . $fetch["img"] . '" alt="" class="cover img-fluid"></a></center>';
                   echo '</div>';
                   echo '<div class="col-12 ">';
                   echo '<h6 class="text-center"><br><b>' . $fetch["name"] . '</b> </h6>';
